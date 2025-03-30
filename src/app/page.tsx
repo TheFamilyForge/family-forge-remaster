@@ -5,7 +5,7 @@ export default function Home() {
         Welcome to Family Forge Designs
       </h2>
       <p style={{ fontFamily: 'Roboto', fontSize: '16pt' }}>
-        This is the new homepage! We're building something awesome here.
+        {"This is the company's new homepage! We're building something awesome here."}
       </p>
     </div>
   );
