@@ -1,12 +1,19 @@
+// src/app/page.tsx
+import Image from "next/image";
+import styles from "./home.module.css";
+
 export default function Home() {
   return (
-    <div>
-      <h2 style={{ fontFamily: 'Poppins', fontSize: '37pt', lineHeight: '1.15' }}>
-        Welcome to Family Forge Designs
-      </h2>
-      <p style={{ fontFamily: 'Roboto', fontSize: '16pt' }}>
-        {"This is the company's new homepage! We're building something awesome here."}
-      </p>
+    <div className={styles.hero}>
+      <div className={styles.overlay}>
+        <Image
+          src="/assets/icons/logo-white.svg"
+          alt="The Family Forge Logo"
+          width={200}
+          height={200}
+        />
+        <h1 className={styles.title}>The Family Forge</h1>
+      </div>
     </div>
   );
 }

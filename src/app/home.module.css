@@ -1,0 +1,52 @@
+/* src/app/home.module.css */
+
+.hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: url('/assets/hero/hero-background.webp') no-repeat center center;
+    background-size: cover;
+    background-position: center 55%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.9;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(32, 32, 32, 0.2); /* dark overlay */
+    z-index: 1;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.95); /* darker overlay */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 150px;
+    color: #ffffff;
+    margin-top: 2rem;
+    letter-spacing: 16px;
+    line-height: 1.9;
+    transform: scaleY(1.8); /* Stretches vertically like your mockup */
+    transform: scaleX(0.85); /* Stretches vertically like your mockup */
+
+  }
+  
