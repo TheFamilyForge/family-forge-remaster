@@ -1,0 +1,411 @@
+/* src/app/products/products.module.css */
+
+/* =======================================================
+   1) HERO SECTION (desktop default)
+====================================================== */
+.heroSection {
+  position: relative;
+  width: 100%;
+  /* fixed‑height viewport to prevent zooming on scroll */
+  height: calc(var(--vh) * 100);
+  overflow: hidden;
+  background: url('/assets/photos/caleb-and-declan-products-hero.webp')
+    no-repeat center center;
+  background-size: cover;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heroTitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 7rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.6rem;
+  margin: 0;
+}
+
+/* =======================================================
+   2) CONTENT SECTION (desktop default)
+====================================================== */
+.contentSection {
+  background-color: #f2f2f2;
+  padding: 4rem 0;
+}
+
+.contentContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  max-width: 1800px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.contentImage {
+  max-height: 65vh;
+  overflow: hidden;
+}
+
+.contentText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contentHeading {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 4.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: 0.3rem;
+  color: #1c1c1c;
+}
+
+.contentText p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.45rem;
+  line-height: 1.9;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.sectionDividerDark {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin: 2rem auto;
+  border: none;
+  border-top: 2px solid #2c3e50;
+}
+
+/* =======================================================
+   3) CUT-OUT GRID (desktop default)
+====================================================== */
+.newGridSection {
+  background-color: #f2f2f2;
+  padding: 3rem 1rem;
+}
+
+.newGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+.newGridItem {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.newGridItem:hover {
+  transform: scale(1.09);
+}
+
+.newGridItem img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+.extraLine {
+  text-align: center;
+  margin: 2rem 0 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.25rem;
+  color: #1c1c1c;
+  font-weight: 500;
+}
+
+/* =======================================================
+   4) MAIN GALLERY (desktop default)
+====================================================== */
+.mainGallery {
+  background-color: #f2f2f2;
+  padding: 3rem 2rem;
+}
+
+.galleryGridMain {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1.5rem;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+.galleryGridMain > :nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.galleryGridMain > :nth-child(2) {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.galleryGridMain > :nth-child(3) {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.galleryItemMain img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* =======================================================
+   5) SMALL GALLERY + CAPTION (desktop default)
+====================================================== */
+.smallGallery {
+  background-color: #f2f2f2;
+  padding-bottom: 7rem;
+}
+
+.galleryGridSmall {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+.galleryItemSmall {
+  position: relative;
+  height: 350px;
+  overflow: visible;
+  border-radius: 8px;
+}
+
+.galleryItemSmall img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  border-radius: 8px;
+}
+
+.galleryGridSmall > .galleryItemSmall:nth-child(3) .caption {
+  position: absolute;
+  bottom: -2.5rem;
+  right: 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.33rem;
+  font-style: italic;
+  font-weight: 700;
+  color: #1c1c1c;
+  white-space: nowrap;
+}
+
+/* =======================================================
+   6) MOBILE-ONLY OVERRIDES
+   — NOTHING ABOVE THIS LINE CHANGES FOR DESKTOP
+====================================================== */
+@media (max-width: 768px) {
+  /* Hero tweaks */
+  .heroSection {
+    /* 60% of the initial viewport height, locked in by --vh */
+    height: calc(var(--vh) * 60) !important;
+    background-position: 10% 30% !important;
+  }
+  .heroTitle {
+    font-size: 3rem;
+    letter-spacing: 0.3rem;
+  }
+
+  /* Content stacks */
+  .contentContainer {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0 2rem;
+  }
+  .contentHeading {
+    font-size: 2rem;
+    letter-spacing: 0.01rem;
+    text-align: center;
+  }
+  .contentImage {
+    max-height: 40vh;
+  }
+  .contentText p {
+    font-size: clamp(1rem, 2.5vw, 1.6rem);
+    line-height: 1.8;
+    margin-bottom: clamp(1.5rem, 3vw, 3rem);
+  }
+  .sectionDividerDark {
+    width: 94%;
+  }
+
+  /* mobile grid → 2 columns */
+  .newGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .extraLine {
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    margin: 2rem 0 1rem;
+  }
+
+  /* Main gallery → single column & big tile reordering */
+  .galleryGridMain {
+    grid-template-columns: 1fr;
+  }
+  .galleryGridMain > :nth-child(3) {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  /* Small gallery → single column */
+  .galleryGridSmall {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .galleryItemSmall {
+    height: auto;
+    overflow: hidden;
+  }
+  .galleryItemSmall img {
+    object-fit: contain;
+    object-position: center;
+  }
+
+  /* hide lightbox arrows on mobile */
+  .lightboxOverride :global(.yarl__navigation_prev),
+  .lightboxOverride :global(.yarl__navigation_next) {
+    display: none !important;
+  }
+}
+
+/* =======================================================
+   7) LIGHTBOX NAVIGATION OVERRIDES
+====================================================== */
+.lightboxOverride {
+  /* wrapper class to scope lightbox overrides */
+}
+
+.lightboxOverride :global(.yarl__navigation_prev),
+.lightboxOverride :global(.yarl__navigation_next) {
+  margin: 0 clamp(0.75rem, 10vw, 11.75rem);
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-color: rgba(205, 205, 205, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.lightboxOverride :global(.yarl__navigation_prev:hover),
+.lightboxOverride :global(.yarl__navigation_next:hover) {
+  background-color: rgba(232, 232, 232, 0.55);
+}
+
+.lightboxOverride :global(.yarl__navigation_prev .yarl__icon),
+.lightboxOverride :global(.yarl__navigation_next .yarl__icon) {
+  width: 2.5rem;
+  height: 2.5rem;
+  fill: #fff;
+}
+
+/* =======================================================
+   8) HIGH-RES LAPTOP HEIGHT OVERRIDES
+   — Only applies when:
+     • width between 769px–1440px
+     • height ≥ 800px
+   — Tweak the numbers below as needed
+====================================================== */
+@media (min-width: 769px) and (max-width: 1440px) and (min-height: 800px) {
+  /* 8.1) Hero section height adjustment */
+  .heroSection {
+    /* Default is 100% (100). Change “90” to suit */
+    height: calc(var(--vh) *100) !important; /* 90% of viewport height */
+  }
+
+  /* 8.2) Embla carousel slide width */
+  .embla {
+    /* Default slide-size lives elsewhere—override here */
+    --slide-size: 50%; /* change this % to make slides wider or narrower */
+  }
+
+  /* 8.3) Embla carousel spacing */
+  .embla__container {
+    /* Default gap: 1.5rem. Tweak to increase/decrease space */
+    gap: 1.5rem;
+  }
+
+  .heroTitle {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.6rem;
+    margin: 0;
+  }
+  
+  .contentSection {
+    background-color: #f2f2f2;
+    padding: 2rem 2rem;
+  }
+  
+  .contentContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    max-width: 1300px;
+    margin: 0 auto;
+    align-items: center;
+  }
+  
+  .contentImage {
+    max-height: 65vh;
+    overflow: hidden;
+    border-radius: 5px;
+  }
+  
+  .contentText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .contentHeading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: 0.5rem;
+    color: #1c1c1c;
+  }
+  
+  .contentText p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.3rem;
+    line-height: 1.9;
+    margin-bottom: 1rem;
+    margin-right: 1.2rem;
+    color: #333;
+  }
+  
+  .sectionDividerDark {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin: 2rem auto;
+    border: none;
+    border-top: 2px solid #2c3e50;
+  }
+  
+}

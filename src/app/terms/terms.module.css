@@ -1,0 +1,145 @@
+/* terms.module.css */
+
+/* =======================================================
+   1) BANNER (desktop default)
+========================================================== */
+.banner {
+  position: relative;
+  overflow: hidden;
+  font-family: 'Bebas Neue', sans-serif;
+  width: 100%;
+  height: 600px;                    /* desktop height */
+  background: 
+    url('/assets/photos/laser-engraving-setup-1.webp')
+    center center / cover no-repeat;
+  text-align: center;
+  color: white;
+}
+
+.bannerTitle {
+  color: #fff;
+  margin: 0;
+  font-size: 6rem;
+  letter-spacing: 0.4rem;
+}
+
+.bannerOverlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+}
+
+/* keep your inline H1 styling but override mobile below */
+.bannerOverlay h1 {
+  margin: 0;
+}
+
+/* =======================================================
+   2) INTRO SECTION (desktop default)
+========================================================== */
+.introSection {
+  width: 95%;
+  margin: 0 auto;
+  background-color: #f2f2f2;
+  color: #000;
+  font-size: 1.3rem;                /* desktop font-size */
+  line-height: 3rem;                /* desktop line-height */
+  text-align: justify;
+  padding: 3rem 3rem;               /* desktop padding */
+  border-bottom: 3px solid #1c1c1c;
+  word-break: break-word;
+}
+
+/* =======================================================
+   3) RE-HEADING (desktop default)
+========================================================== */
+.headingIndent {
+  padding-left: 6rem;
+  padding-top: 4rem;
+  padding-bottom: 3rem;
+  font-size: 3rem;                  /* desktop */
+  margin: 0;
+}
+
+/* =======================================================
+   4) TOC LINKS & CONTENT (desktop default)
+========================================================== */
+.tocLink {
+  color: black;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding-left: 6rem;
+  display: block;
+  margin-top: 1rem;
+  line-height: 2.1rem;
+}
+
+.sectionContent {
+  display: none;                    /* collapsed by default */
+  padding-left: 6rem;
+  padding-right: 6rem;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  line-height: 1.8rem;
+  text-align: justify;
+  word-break: break-word;
+}
+
+/* =======================================================
+   5) MOBILE OVERRIDES — up to 768px
+   (desktop above remains untouched)
+========================================================== */
+@media (max-width: 768px) {
+  /* — Banner: shorter & finer control — */
+  .banner {
+    height: clamp(30vh, 40dvh, 50vh);
+    background-size: cover;
+    background-position: 50% 20%;   /* recenter focal point */
+  }
+  .bannerOverlay h1 {
+    font-size: clamp(1rem, 6vw, 3rem);
+  }
+
+  .bannerTitle {
+    font-size: clamp(2rem, 6vw, 3rem);
+  }
+
+  /* — Intro: more compact — */
+  .introSection {
+    width: 90%;
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    line-height: clamp(1.7rem, 4vw, 1.8rem);
+    padding: clamp(1rem, 4vw, 2rem);
+  }
+
+  /* — Re-heading: tighter — */
+  .headingIndent {
+    padding-top: 3rem;
+    padding-left: clamp(1.3rem, 5vw, 2rem);
+    font-size: clamp(1.25rem, 5vw, 2rem);
+    padding-bottom: 1.5rem;
+  }
+
+  /* — TOC links: adjust indent & size — */
+  .tocLink {
+    font-size: clamp(1rem, 4vw, 1.1rem);
+    padding-left: clamp(1.8rem, 5vw, 2rem);
+    margin-left: 0;
+    line-height: clamp(1.6rem, 5vw, 2rem);
+  }
+
+  /* — Sections: full-width collapse area — */
+  .sectionContent {
+    padding-left: clamp(1.8rem, 5vw, 2rem);
+    padding-right: clamp(1.8rem, 5vw, 2rem);
+    font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+    line-height: clamp(1.4rem, 4vw, 1.7rem);
+    margin-bottom: clamp(1.5rem, 5vw, 2rem);
+  }
+}

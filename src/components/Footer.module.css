@@ -1,0 +1,32 @@
+.footer {
+    background-color: #f2f2f2;
+    text-align: center;
+    padding: 5rem 0 2rem;    /* you can tweak top/bottom here */
+  }
+  .instagramLogo {
+    display: block;
+    margin: 0 auto clamp(1.5rem, 4vw, 3rem);
+    width: 55px;
+  }
+  .footer p {
+    color: #1c1c1c;
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .instagramLogo{
+      width: 43px;
+      margin: 0 auto clamp(1.5rem, 4vw, 3rem);
+    }
+
+    .footer {
+        background-color: #f2f2f2;
+        text-align: center;
+        padding: 3rem 0 4rem;    /* you can tweak top/bottom here */
+      }
+    
+  }    
+
+
+  
