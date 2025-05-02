@@ -11,6 +11,8 @@
   overflow: hidden;
 }
 
+.heroTitleImage { width: 100%; height: auto; display: block; }
+
 .animationOverlay {
   position: absolute;
   inset: 0;
@@ -42,15 +44,8 @@
   padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 2vw, 2rem);
   text-align: center;
 }
-.card {
-  padding: 1rem;
-  border-radius: 8px;
-}
-.card img {
-  width: 100%;
-  height: auto;
-  border-radius: 5px;
-}
+.card { padding: 1rem; border-radius: 8px; }
+.card img { width: 100%; height: auto; border-radius: 5px; }
 .card h3 {
   margin-top: 1rem;
   font-size: clamp(1.2rem, 2.5vw, 1.6rem);
@@ -68,10 +63,7 @@
 /* ----------------------------------
    Laser Feature
 ---------------------------------- */
-.laserFeature {
-  background-color: #000;
-  color: #fff;
-}
+.laserFeature { background-color: #000; color: #fff; }
 .laserBackground {
   position: relative;
   background: url('/assets/photos/engraved-your-way-4.webp') center/cover no-repeat;
@@ -97,17 +89,8 @@
   max-width: 90vw;
   margin: 0 auto;
 }
-.oilImage {
-  width: clamp(250px, 35vw, 650px);
-  object-fit: contain;
-  border-radius: 5px;
-  flex-shrink: 0;
-}
-.oilText {
-  flex: 1;
-  font-family: 'Roboto', sans-serif;
-  padding-inline: clamp(1rem, 3vw, 2rem);
-}
+.oilImage { width: clamp(250px, 35vw, 650px); object-fit: contain; border-radius: 5px; flex-shrink: 0; }
+.oilText { flex: 1; font-family: 'Roboto', sans-serif; padding-inline: clamp(1rem, 3vw, 2rem); }
 .oilText h2 {
   font-family: 'Inter', sans-serif;
   font-weight: 700;
@@ -115,11 +98,7 @@
   margin-bottom: clamp(1.5rem, 4vw, 4rem);
   letter-spacing: 0.22rem;
 }
-.oilText p {
-  margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
-  font-size: clamp(1rem, 2.5vw, 1.6rem);
-  line-height: 1.75;
-}
+.oilText p { margin-bottom: clamp(1rem, 2.5vw, 1.5rem); font-size: clamp(1rem, 2.5vw, 1.6rem); line-height: 1.75; }
 
 /* ----------------------------------
    Engraving Section
@@ -158,6 +137,8 @@
   line-height: 1.8;
   margin-bottom: clamp(1.5rem, 3vw, 3rem);
 }
+
+/* —— image column ————————————————— */
 .engravingImageBlock {
   flex: 1;
   min-width: 300px;
@@ -165,11 +146,25 @@
   justify-content: center;
   padding: clamp(1rem, 3vw, 2rem);
 }
-.engravingImage {
+
+/* wrapper sets aspect ratio & rounding */
+.engravingImageWrapper {
+  position: relative;
   width: 100%;
-  border-radius: 5px;
-  object-fit: contain;
+  aspect-ratio: 4 / 3;      /* tweak if photo ratio differs */
+  border-radius: 8px;
+  overflow: hidden;
 }
+
+/* local‑class + :global span → valid selector */
+.engravingImageWrapper :global(span) {
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+}
+
+/* actual image */
+.engravingImage { object-fit: cover; width: 100%; height: 100%; }
 
 /* ----------------------------------
    Special Occasions Section
@@ -190,8 +185,7 @@
   backdrop-filter: blur(6px);
 }
 
-
-/* ── MOBILE OVERRIDES ─────────────────────────────────────── */
+/* ── MOBILE OVERRIDES ───────────────────────────────── */
 @media (max-width: 768px) {
   .laserContent,
   .engravingSection,
@@ -204,4 +198,26 @@
     width: 100%;
     padding-inline: clamp(0.5rem, 6vw, 2rem);
   }
+  .engravingContent { flex-direction: column; gap: 1.25rem; }
+}
+
+  .oilImage {
+    margin-bottom: -2rem;
+  }
+
+  .oilText h2{
+    font-size: 1.5rem;
+    padding-bottom: 1rem;
+  }
+
+/* ── LAPTOP FONT ADJUSTMENT ─────────────────────────── */
+@media (min-width: 1024px) and (max-width: 1440px) {
+  .engravingTextBlock h2 { font-size: clamp(1.4rem, 3.5vw, 2.5rem); }
+  .engravingTextBlock p  { font-size: clamp(0.9rem, 2vw, 1.4rem); }
+  /* no oversize image here – keeps layout tidy */
+
+  .oilText h2{
+    font-size: 2.8rem;
+  }
+
 }

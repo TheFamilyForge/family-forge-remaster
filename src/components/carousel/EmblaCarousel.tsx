@@ -1,12 +1,27 @@
+'use client'
+
 import React, { useCallback, useEffect, useRef } from 'react'
-import { EmblaCarouselType, EmblaEventType, EmblaOptionsType } from 'embla-carousel'
+import Image from 'next/image'                                  // ← NEW
+import {
+  EmblaCarouselType,
+  EmblaEventType,
+  EmblaOptionsType,
+} from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
-import { NextButton, PrevButton, usePrevNextButtons } from './EmblaCarouselArrowButtons'
+import {
+  NextButton,
+  PrevButton,
+  usePrevNextButtons,
+} from './EmblaCarouselArrowButtons'
 import { DotButton, useDotButton } from './EmblaCarouselDotButton'
 
-const TWEEN_FACTOR_BASE = 0.35/* change parralax punch */
-4
-type Slide = {
+/* ───── tweak this if you want stronger / weaker parallax ───── */
+const TWEEN_FACTOR_BASE = 0.35
+
+/* ----------------------------------
+   Slide data (fallback)
+---------------------------------- */
+export type Slide = {
   src: string
   title: string
   alt?: string
@@ -46,32 +61,28 @@ const defaultOptions: Partial<EmblaOptionsType> = {
   containScroll: 'trimSnaps',
 }
 
-type PropType = {
+type Props = {
   slides?: Slide[]
   options?: EmblaOptionsType
 }
 
-const EmblaCarousel: React.FC<PropType> = ({
+const EmblaCarousel: React.FC<Props> = ({
   slides = defaultSlides,
   options = defaultOptions,
 }) => {
+  /* embla hook -------------------------------------------------- */
   const [emblaRef, emblaApi] = useEmblaCarousel(options)
+
+  /* parallax helpers ------------------------------------------- */
   const tweenFactor = useRef(0)
   const tweenNodes = useRef<HTMLElement[]>([])
 
-  const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi)
-  const {
-    prevBtnDisabled,
-    nextBtnDisabled,
-    onPrevButtonClick,
-    onNextButtonClick,
-  } = usePrevNextButtons(emblaApi)
-
   const setTweenNodes = useCallback((api: EmblaCarouselType) => {
-    tweenNodes.current = api.slideNodes().map(
-      (slideNode) =>
-        slideNode.querySelector('.embla__parallax__layer') as HTMLElement
-    )
+    tweenNodes.current = api
+      .slideNodes()
+      .map((slideNode) => slideNode.querySelector(
+        '.embla__parallax__layer'
+      ) as HTMLElement)
   }, [])
 
   const setTweenFactor = useCallback((api: EmblaCarouselType) => {
@@ -79,43 +90,51 @@ const EmblaCarousel: React.FC<PropType> = ({
   }, [])
 
   const tweenParallax = useCallback(
-    (api: EmblaCarouselType, eventName?: EmblaEventType) => {
-      const engine = api.internalEngine()
+    (api: EmblaCarouselType, evt?: EmblaEventType) => {
+      const engine         = api.internalEngine()
       const scrollProgress = api.scrollProgress()
-      const slidesInView = api.slidesInView()
-      const isScrollEvent = eventName === 'scroll'
+      const slidesInView   = api.slidesInView()
+      const isScroll       = evt === 'scroll'
 
-      api.scrollSnapList().forEach((scrollSnap, snapIndex) => {
-        let diffToTarget = scrollSnap - scrollProgress
-        const slidesInSnap = engine.slideRegistry[snapIndex]
+      api.scrollSnapList().forEach((snap, snapIdx) => {
+        let diff = snap - scrollProgress
+        const slidesInSnap = engine.slideRegistry[snapIdx]
 
-        slidesInSnap.forEach((slideIndex) => {
-          if (isScrollEvent && !slidesInView.includes(slideIndex)) return
+        slidesInSnap.forEach((slideIdx) => {
+          if (isScroll && !slidesInView.includes(slideIdx)) return
 
+          /* loop correction */
           if (engine.options.loop) {
-            engine.slideLooper.loopPoints.forEach((loopItem) => {
-              const target = loopItem.target()
-              if (slideIndex === loopItem.index && target !== 0) {
-                const sign = Math.sign(target)
-                if (sign === -1) {
-                  diffToTarget = scrollSnap - (1 + scrollProgress)
-                }
-                if (sign === 1) {
-                  diffToTarget = scrollSnap + (1 - scrollProgress)
-                }
+            engine.slideLooper.loopPoints.forEach((l) => {
+              if (slideIdx === l.index && l.target() !== 0) {
+                const sign = Math.sign(l.target())
+                diff = sign === -1
+                  ? snap - (1 + scrollProgress)
+                  : snap + (1 - scrollProgress)
               }
             })
           }
 
-          const translate = diffToTarget * -tweenFactor.current * 100
-          const tweenNode = tweenNodes.current[slideIndex]
-          tweenNode.style.transform = `translateX(${translate}%)`
+          const translate = diff * -tweenFactor.current * 100
+          tweenNodes.current[slideIdx].style.transform =
+            `translateX(${translate}%)`
         })
       })
     },
     []
   )
 
+  /* dots / arrows ---------------------------------------------- */
+  const { selectedIndex, scrollSnaps, onDotButtonClick } =
+    useDotButton(emblaApi)
+  const {
+    prevBtnDisabled,
+    nextBtnDisabled,
+    onPrevButtonClick,
+    onNextButtonClick,
+  } = usePrevNextButtons(emblaApi)
+
+  /* listeners --------------------------------------------------- */
   useEffect(() => {
     if (!emblaApi) return
     setTweenNodes(emblaApi)
@@ -130,18 +149,24 @@ const EmblaCarousel: React.FC<PropType> = ({
       .on('slideFocus', tweenParallax)
   }, [emblaApi, setTweenNodes, setTweenFactor, tweenParallax])
 
+  /* markup ------------------------------------------------------ */
   return (
     <div className="embla">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
-          {slides.map((slide, idx) => (
-            <div className="embla__slide" key={idx}>
+          {slides.map((slide, i) => (
+            <div className="embla__slide" key={i}>
               <div className="embla__parallax">
                 <div className="embla__parallax__layer">
-                  <img
-                    className="embla__slide__img embla__parallax__img"
+                  {/* next/image replaces <img> */}
+                  <Image
                     src={slide.src}
                     alt={slide.alt || slide.title}
+                    fill
+                    sizes="(max-width:768px) 90vw, 50vw"
+                    className="embla__slide__img embla__parallax__img"
+                    style={{ objectFit: 'cover' }}
+                    priority={i === 0}          /* LCP help */
                   />
                 </div>
               </div>
@@ -157,13 +182,11 @@ const EmblaCarousel: React.FC<PropType> = ({
         </div>
 
         <div className="embla__dots">
-          {scrollSnaps.map((_, index) => (
+          {scrollSnaps.map((_, idx) => (
             <DotButton
-              key={index}
-              onClick={() => onDotButtonClick(index)}
-              className={`embla__dot${
-                index === selectedIndex ? ' embla__dot--selected' : ''
-              }`}
+              key={idx}
+              onClick={() => onDotButtonClick(idx)}
+              className={`embla__dot${idx === selectedIndex ? ' embla__dot--selected' : ''}`}
             />
           ))}
         </div>

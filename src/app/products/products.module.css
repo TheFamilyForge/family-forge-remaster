@@ -3,6 +3,12 @@
 /* =======================================================
    1) HERO SECTION (desktop default)
 ====================================================== */
+.newGridItem > span {          /* span is the auto wrapper next/image inserts */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .heroSection {
   position: relative;
   width: 100%;
@@ -239,8 +245,10 @@
     text-align: center;
   }
   .contentImage {
-    max-height: 40vh;
+    max-height: calc(var(--vh) * 40) !important;
+    border-radius: 5px;
   }
+  
   .contentText p {
     font-size: clamp(1rem, 2.5vw, 1.6rem);
     line-height: 1.8;

@@ -1,5 +1,11 @@
 /* terms.module.css */
 
+/* 0) Help the hero banner text stay crisp on mobile Safari */
+.bannerOverlay h1 {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
 /* =======================================================
    1) BANNER (desktop default)
 ========================================================== */

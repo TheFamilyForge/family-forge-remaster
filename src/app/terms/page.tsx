@@ -1,12 +1,16 @@
-'use client';
+// src/app/terms/page.tsx
+'use client'
 
-import { useState, useEffect } from 'react';
-import styles from './terms.module.css';
+import { useState, useEffect } from 'react'
+import styles from './terms.module.css'
 
+/* ------------------------------
+   1. SECTION DATA
+------------------------------ */
 interface Section {
-  id: number;
-  title: string;
-  content: string;
+  id: number
+  title: string
+  content: string
 }
 
 const sections: Section[] = [
@@ -127,70 +131,73 @@ const sections: Section[] = [
   }
 ];
 
+/* ------------------------------
+   2. PAGE COMPONENT
+------------------------------ */
 export default function TermsPage() {
-  const [openSection, setOpenSection] = useState<number | null>(null);
+  const [openSection, setOpenSection] = useState<number | null>(null)
 
-  // scroll into view whenever a new section opens
+  // auto‑scroll to opened section
   useEffect(() => {
     if (openSection !== null) {
-      const el = document.getElementById(`section-${openSection}`);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      document
+        .getElementById(`section-${openSection}`)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
-  }, [openSection]);
+  }, [openSection])
 
-  const toggleSection = (id: number) => {
-    setOpenSection(prev => (prev === id ? null : id));
-  };
+  const toggleSection = (id: number) =>
+    setOpenSection(prev => (prev === id ? null : id))
 
   return (
     <>
-      {/* Hero banner + overlay */}
-      <div className={styles.banner}>
+      {/* ─── Hero Banner ─────────────────────────────────── */}
+      <header className={styles.banner}>
         <div className={styles.bannerOverlay}>
-          <h1 className={styles.bannerTitle}>
-            TERMS AND CONDITIONS
-          </h1>
+          <h1 className={styles.bannerTitle}>TERMS AND CONDITIONS</h1>
         </div>
-      </div>
+      </header>
 
-      {/* Intro text */}
-      <div className={styles.introSection}>
+      {/* ─── Intro Summary ──────────────────────────────── */}
+      <section className={styles.introSection}>
         <p>
-          The Family Forge, a company in Fort Myers, Florida, provides services through its website. By accessing these services, users agree to the legal terms. Minors need parental permission. Changes to services will be notified, and continued use implies acceptance. The terms cover various aspects like services, intellectual property, user representations, products, purchases, returns, prohibited activities, user‑generated contributions, and more. Users must comply with laws and not engage in unauthorized activities. The terms also discuss indemnification, limitations of liability, and dispute resolution. The agreement is governed by Florida law. The services are provided "as‑is," and the company disclaims warranties. Users agree to electronic communications and signatures. California users can contact the Complaint Assistance Unit for unresolved issues. The terms are the entire agreement, and any unlawful provision is deemed severable. For further inquiries or complaints, users can contact The Family Forge.
+          The Family Forge, a company in Fort Myers, Florida, provides services
+          through its website. By accessing these services, users agree to the
+          legal terms. Minors need parental permission. Changes to services will
+          be notified, and continued use implies acceptance.
         </p>
-      </div>
+      </section>
 
-      {/* Repeat heading */}
+      {/* ─── Big Heading ───────────────────────────────── */}
       <h1 className={styles.headingIndent}>TERMS AND CONDITIONS</h1>
 
-      {/* Table of Contents */}
-      <div id="toc">
-        {sections.map(section => (
-          <div key={section.id}>
+      {/* ─── Table of Contents & Collapsible Sections ──── */}
+      <nav id="toc">
+        {sections.map(sec => (
+          <div key={sec.id}>
             <p
               className={styles.tocLink}
-              onClick={() => toggleSection(section.id)}
+              onClick={() => toggleSection(sec.id)}
             >
-              {section.id}. {section.title}
+              {sec.id}. {sec.title}
             </p>
+
             <div
-              id={`section-${section.id}`}
+              id={`section-${sec.id}`}
               className={styles.sectionContent}
               style={{
-                display: openSection === section.id ? 'block' : 'none',
-                scrollMarginTop: '160px'
+                display: openSection === sec.id ? 'block' : 'none',
+                scrollMarginTop: '140px'
               }}
             >
-              <p>{section.content}</p>
+              <p>{sec.content}</p>
             </div>
           </div>
         ))}
 
-        {/* extra space under Section 23 so it never collides with your footer */}
+        {/* bottom spacer so last section clears footer */}
         <div style={{ height: '100px' }} />
-      </div>
+      </nav>
     </>
-  );
+  )
 }
