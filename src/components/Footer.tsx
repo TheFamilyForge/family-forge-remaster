@@ -1,5 +1,5 @@
 // src/components/Footer.tsx
-import Image from 'next/image'              // ← replaces the <img> tag
+import Image from 'next/image'
 import styles from './Footer.module.css'
 
 export default function Footer() {
@@ -9,17 +9,20 @@ export default function Footer() {
         href="https://www.instagram.com/familyforge1/"
         target="_blank"
         rel="noopener noreferrer"
+        className={styles.instaLink}
       >
         <Image
           src="/assets/icons/ig-logo.webp"
           alt="Instagram"
-          width={50}         /* use your logo’s real pixel size */
-          height={55}
-          className={styles.instagramLogo}
-          priority={false}   /* footer is below the fold */
+          width={50}                   // fixed square container
+          height={50}
+          style={{ objectFit: 'contain' }}
+          priority={false}             // footer is below the fold
         />
       </a>
-      <p>© 2025 The Family Forge. All rights reserved.</p>
+      <p className={styles.footerText}>
+        © 2025 The Family Forge. All rights reserved.
+      </p>
     </footer>
   )
 }

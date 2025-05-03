@@ -1,32 +1,37 @@
+/* src/components/Footer.module.css */
+
 .footer {
-    background-color: #f2f2f2;
-    text-align: center;
-    padding: 5rem 0 2rem;    /* you can tweak top/bottom here */
+  background-color: #f2f2f2;
+  text-align: center;
+  padding: 5rem 0 2rem;        /* tweak top (5rem) / bottom (2rem) as needed */
+  font-family: 'Roboto', sans-serif;
+}
+
+.instaLink {
+  display: block;              /* shrink‑wrap around the img */
+  margin: 0 auto 2rem;         /* bottom gutter to separate from the copyright */
+  width: fit-content;
+}
+
+.instagramLogo {
+  width: 55px;                 /* desktop size */
+  height: auto;
+}
+
+.footerText {
+  color: #1c1c1c;
+  font-size: 1rem;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 3rem 0 4rem;      /* mobile top/bottom tweak */
   }
   .instagramLogo {
-    display: block;
-    margin: 0 auto clamp(1.5rem, 4vw, 3rem);
-    width: 55px;
+    width: 43px;               /* mobile size */
   }
-  .footer p {
-    color: #1c1c1c;
-    font-size: 1rem;
-    margin: 0;
+  .instaLink {
+    margin-bottom: 1.5rem;     /* slightly smaller gutter on mobile */
   }
-
-  @media (max-width: 768px) {
-    .instagramLogo{
-      width: 43px;
-      margin: 0 auto clamp(1.5rem, 4vw, 3rem);
-    }
-
-    .footer {
-        background-color: #f2f2f2;
-        text-align: center;
-        padding: 3rem 0 4rem;    /* you can tweak top/bottom here */
-      }
-    
-  }    
-
-
-  
+}

@@ -1,10 +1,23 @@
 // src/app/api/contact/route.ts
 
+import fs from 'fs'
+import path from 'path'
 import { NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 
 export async function POST(request: Request) {
   const { name, email, subject, message } = await request.json()
+
+  // load & base64‑encode your logo once per request
+  const logoPath = path.join(
+    process.cwd(),
+    'public',
+    'assets',
+    'icons',
+    'family-forge-logo-black.png'
+  )
+  const logoBase64 = fs.readFileSync(logoPath).toString('base64')
+  const logoSrc = `data:image/png;base64,${logoBase64}`
 
   const transporter = nodemailer.createTransport({
     host:   process.env.SMTP_HOST,
@@ -18,18 +31,15 @@ export async function POST(request: Request) {
 
   try {
     await transporter.sendMail({
-      // 1) Envelope ensures Zoho SPF/DKIM aligns with your domain
       envelope: {
         from: process.env.SMTP_USER,
         to:   process.env.NOTIFY_EMAIL,
       },
-      // 2) Header‑From shows a branded sender
       from:    `"The Family Forge" <${process.env.SMTP_USER}>`,
       to:      process.env.NOTIFY_EMAIL,
       replyTo: `"${name}" <${email}>`,
       subject: `[Family Forge Contact Form] ${subject}`,
 
-      // 3) Plain‑text version (padded so it never looks empty)
       text: [
         'You’ve received a new message via your website contact form:',
         '–––––––––––––––––––––––––––––––––––––––––––––––',
@@ -41,11 +51,10 @@ export async function POST(request: Request) {
         'This notification was sent by The Family Forge.'
       ].join('\n'),
 
-      // 4) HTML version with your logo at the top
       html: `
         <div style="text-align:center; padding:1rem 0;">
           <img
-            src="https://familyforgedesigns.com/assets/icons/family-forge-logo-black.png"
+            src="${logoSrc}"
             alt="The Family Forge Logo"
             style="width:40px; height:auto; display:block; margin:0 auto 1rem;"
           />
@@ -61,6 +70,7 @@ export async function POST(request: Request) {
           This notification was sent by The Family Forge.
         </p>
       `,
+      // no attachments array here!
     })
 
     return NextResponse.json({ ok: true })
