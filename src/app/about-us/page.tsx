@@ -62,7 +62,7 @@ export default function AboutUsPage() {
         {/* Photo */}
         <div className={styles.imageContainer}>
           <Image
-            src="/assets/photos/caleb-and-declan.webp"
+            src="/assets/photos/caleb-and-declan-about-us.webp"
             alt="Caleb and Declan"
             width={1200}
             height={800}
