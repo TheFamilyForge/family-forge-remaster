@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       html: `
         <div style="text-align:center; padding:1rem 0;">
           <img
-            src="https://familyforgedesigns.com/assets/icons/family-forge-email-logo.png"
+            src="https://familyforgedesigns.com/assets/icons/family-forge-logo-black.png"
             alt="The Family Forge Logo"
             style="width:40px; height:auto; display:block; margin:0 auto 1rem;"
           />
