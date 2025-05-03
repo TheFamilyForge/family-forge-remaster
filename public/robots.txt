@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://familyforgedesigns.com
+
+# Sitemaps
+Sitemap: https://familyforgedesigns.com/sitemap.xml
