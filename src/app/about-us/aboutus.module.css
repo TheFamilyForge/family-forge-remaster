@@ -169,5 +169,9 @@
 @media (min-width: 769px) and (max-height: 800px) {
   .heroTitle { font-size: 4.5rem; }
   .contentSection { gap: 3rem; padding: 3rem 5rem; }
-  .imageContainer { max-height: 600px; }
+  .imageContainer { max-height: 700px; }
+
+  .contentSection{
+    transform: scale(0.94);
+  }
 }
