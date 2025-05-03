@@ -1,5 +1,4 @@
 // src/app/api/contact/route.ts
-
 import fs from 'fs'
 import path from 'path'
 import { NextResponse } from 'next/server'
@@ -8,7 +7,7 @@ import nodemailer from 'nodemailer'
 export async function POST(request: Request) {
   const { name, email, subject, message } = await request.json()
 
-  // load & base64‑encode your logo once per request
+  // locate your logo file
   const logoPath = path.join(
     process.cwd(),
     'public',
@@ -16,8 +15,7 @@ export async function POST(request: Request) {
     'icons',
     'family-forge-logo-black.png'
   )
-  const logoBase64 = fs.readFileSync(logoPath).toString('base64')
-  const logoSrc = `data:image/png;base64,${logoBase64}`
+  const logoContent = fs.readFileSync(logoPath)
 
   const transporter = nodemailer.createTransport({
     host:   process.env.SMTP_HOST,
@@ -53,8 +51,9 @@ export async function POST(request: Request) {
 
       html: `
         <div style="text-align:center; padding:1rem 0;">
+          <!-- reference the inline attachment by CID: -->
           <img
-            src="${logoSrc}"
+            src="cid:familyforge-logo"
             alt="The Family Forge Logo"
             style="width:40px; height:auto; display:block; margin:0 auto 1rem;"
           />
@@ -70,7 +69,15 @@ export async function POST(request: Request) {
           This notification was sent by The Family Forge.
         </p>
       `,
-      // no attachments array here!
+
+      // **embed** your logo as an inline attachment:
+      attachments: [
+        {
+          filename: 'family-forge-logo-black.png',
+          content:  logoContent,
+          cid:      'familyforge-logo'
+        }
+      ]
     })
 
     return NextResponse.json({ ok: true })
