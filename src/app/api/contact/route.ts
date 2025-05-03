@@ -1,15 +1,14 @@
 // src/app/api/contact/route.ts
 
 import { NextResponse } from 'next/server'
-import * as nodemailer from 'nodemailer'
+import nodemailer from 'nodemailer'
 
 export async function POST(request: Request) {
   const { name, email, subject, message } = await request.json()
 
-  // create a transporter using your SMTP settings
   const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
+    host:   process.env.SMTP_HOST,
+    port:   Number(process.env.SMTP_PORT),
     secure: true,
     auth: {
       user: process.env.SMTP_USER,
@@ -18,17 +17,50 @@ export async function POST(request: Request) {
   })
 
   try {
-    // send the email
     await transporter.sendMail({
-      from: `"Family Forge Notifications" <${process.env.SMTP_USER}>`,
-      to:   process.env.NOTIFY_EMAIL,
-      subject: `[Family Forge Contact Form] ${subject} (from ${email})`,
-      text: `From: ${name} <${email}>\n\n${message}`,
+      // 1) Envelope ensures Zoho SPF/DKIM aligns with your domain
+      envelope: {
+        from: process.env.SMTP_USER,
+        to:   process.env.NOTIFY_EMAIL,
+      },
+      // 2) Header‑From shows a branded sender
+      from:    `"The Family Forge" <${process.env.SMTP_USER}>`,
+      to:      process.env.NOTIFY_EMAIL,
+      replyTo: `"${name}" <${email}>`,
+      subject: `[Family Forge Contact Form] ${subject}`,
+
+      // 3) Plain‑text version (padded so it never looks empty)
+      text: [
+        'You’ve received a new message via your website contact form:',
+        '–––––––––––––––––––––––––––––––––––––––––––––––',
+        `From: ${name} <${email}>`,
+        '',
+        message || '<no message provided>',
+        '',
+        '–––––––––––––––––––––––––––––––––––––––––––––––',
+        'This notification was sent by The Family Forge.'
+      ].join('\n'),
+
+      // 4) HTML version with your logo at the top
       html: `
+        <div style="text-align:center; padding:1rem 0;">
+          <img
+            src="https://familyforgedesigns.com/assets/icons/family-forge-email-logo.png"
+            alt="The Family Forge Logo"
+            style="width:40px; height:auto; display:block; margin:0 auto 1rem;"
+          />
+        </div>
+        <h2>You’ve received a new message via your website contact form:</h2>
+        <hr/>
         <p><strong>From:</strong> ${name} &lt;${email}&gt;</p>
-        <p>${message.replace(/\n/g, '<br/>')}</p>
+        <div style="margin:1em 0; padding:1em; background:#f9f9f9; border-radius:4px;">
+          ${message.replace(/\n/g, '<br/>') || '<i>No message provided</i>'}
+        </div>
+        <hr/>
+        <p style="font-size:0.9em; color:#666;">
+          This notification was sent by The Family Forge.
+        </p>
       `,
-      replyTo: email,   // replies go back to the customer
     })
 
     return NextResponse.json({ ok: true })
