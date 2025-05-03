@@ -2,17 +2,20 @@
 'use client'
 
 import { useEffect } from 'react'
-import Image from 'next/image'
-import HeroAnimation from '@components/HeroAnimation'
 import EmblaCarousel from '@components/carousel/EmblaCarousel'
 import type { EmblaOptionsType } from 'embla-carousel'
+import HeroAnimation from '@components/HeroAnimation'
 import styles from './home.module.css'
 
 export default function Home() {
   /* — 100 vh mobile fix — */
   useEffect(() => {
-    const setVh = () =>
-      document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`)
+    const setVh = () => {
+      document.documentElement.style.setProperty(
+        '--vh',
+        `${window.innerHeight * 0.01}px`
+      )
+    }
     setVh()
     window.addEventListener('orientationchange', setVh)
     return () => window.removeEventListener('orientationchange', setVh)
@@ -21,24 +24,46 @@ export default function Home() {
   /* — header shadow on scroll — */
   useEffect(() => {
     const header = document.querySelector('.site-header')
-    const onScroll = () => header?.classList.toggle('scrolled', window.scrollY > 50)
+    const onScroll = () => {
+      header?.classList.toggle('scrolled', window.scrollY > 50)
+    }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   /* — carousel data — */
   const photos = [
-    { src: '/assets/photos/american-bald-eagle-charcuterie-board-bottom-home-page.webp', title: 'Perfect for Any Occasion or Holiday', alt: 'American Bald Eagle Charcuterie Board' },
-    { src: '/assets/photos/loggerhead-cay-sanibel-florida-charcuterie-board.webp',        title: 'Commemorate Special Events',         alt: 'Loggerhead Cay Charcuterie Board' },
-    { src: '/assets/photos/blue-fox-crystals-cutting-board-steaks.webp',                  title: 'Blue Fox Crystals Board',            alt: 'Blue Fox Crystals Cutting Board' },
-    { src: '/assets/photos/wurst-family-charcuterie-board.webp',                          title: 'The Wurst Family Board',             alt: 'Wurst Family Charcuterie Board' },
-    { src: '/assets/photos/gift-basket-charcuterie-board.webp',                           title: 'Gourmet Gift Basket Board',          alt: 'Gift Basket Charcuterie Board' }
+    {
+      src: '/assets/photos/american-bald-eagle-charcuterie-board-bottom-home-page.webp',
+      title: 'Perfect for Any Occasion or Holiday',
+      alt: 'American Bald Eagle Charcuterie Board',
+    },
+    {
+      src: '/assets/photos/loggerhead-cay-sanibel-florida-charcuterie-board.webp',
+      title: 'Commemorate Special Events',
+      alt: 'Loggerhead Cay Charcuterie Board',
+    },
+    {
+      src: '/assets/photos/blue-fox-crystals-cutting-board-steaks.webp',
+      title: 'Blue Fox Crystals Board',
+      alt: 'Blue Fox Crystals Cutting Board',
+    },
+    {
+      src: '/assets/photos/wurst-family-charcuterie-board.webp',
+      title: 'The Wurst Family Board',
+      alt: 'Wurst Family Charcuterie Board',
+    },
+    {
+      src: '/assets/photos/gift-basket-charcuterie-board.webp',
+      title: 'Gourmet Gift Basket Board',
+      alt: 'Gift Basket Charcuterie Board',
+    },
   ]
 
   const emblaOptions: Partial<EmblaOptionsType> = {
     align: 'center',
     loop: true,
-    containScroll: 'trimSnaps'
+    containScroll: 'trimSnaps',
   }
 
   return (
@@ -47,16 +72,6 @@ export default function Home() {
       <section className={styles.hero}>
         <div className={styles.animationOverlay}>
           <HeroAnimation />
-        </div>
-        <div className={styles.overlay}>
-          <Image
-            src="/assets/hero/hero-title.png"
-            alt="The Family Forge Title"
-            width={600}
-            height={250}
-            priority
-            className={styles.heroTitleImage}
-          />
         </div>
       </section>
 
@@ -67,29 +82,28 @@ export default function Home() {
             src: '/assets/photos/american-bald-eagle-charcuterie-board-bottom-home-page.webp',
             alt: 'Crafted in Florida',
             title: 'Crafted in Southwest Florida',
-            desc: 'Custom Charcuterie Boards with soul from The Family Forge'
+            desc: 'Custom Charcuterie Boards with soul from The Family Forge',
           },
           {
             src: '/assets/photos/blue-fox-crystals-cutting-board-3.webp',
             alt: 'Engraved Cutting Boards',
             title: 'Artisan Engraved Cutting Boards',
-            desc: 'Elevate your culinary game with our custom laser boards'
+            desc: 'Elevate your culinary game with our custom laser boards',
           },
           {
             src: '/assets/photos/the-wurst-family-charcuterie-board-our-products-page.webp',
             alt: 'Personalized Boards',
             title: 'Personalized Charcuterie Boards',
-            desc: 'Enhance your experience with one-of-a-kind pieces'
-          }
+            desc: 'Enhance your experience with one-of-a-kind pieces',
+          },
         ].map((item, i) => (
           <div key={i} className={styles.card}>
-            <Image
+            <img
               src={item.src}
               alt={item.alt}
               width={500}
               height={350}
-              sizes="(max-width:768px) 90vw, 30vw"
-              style={{ borderRadius: '5px' }}
+              style={{ borderRadius: '5px', width: '100%', height: 'auto' }}
             />
             <h3>{item.title}</h3>
             <p>{item.desc}</p>
@@ -101,7 +115,7 @@ export default function Home() {
       <section className={styles.laserFeature}>
         <div className={styles.laserBackground}>
           <div className={styles.laserContent}>
-            <Image
+            <img
               src="/assets/photos/charcuterie-board-oils.webp"
               alt="Board Oils"
               width={650}
@@ -119,7 +133,10 @@ export default function Home() {
               <p>
                 Customers are our number one priority. If our services ever fall short, please
                 contact us at{' '}
-                <a href="mailto:contact@familyforgedesigns.com">contact@familyforgedesigns.com</a>.
+                <a href="mailto:contact@familyforgedesigns.com">
+                  contact@familyforgedesigns.com
+                </a>
+                .
               </p>
             </div>
           </div>
@@ -142,16 +159,17 @@ export default function Home() {
               beauty. Share your idea and watch us bring it to life.
             </p>
           </div>
-
           <div className={styles.engravingImageBlock}>
-            {/* wrapper controls aspect‑ratio & rounding */}
             <div className={styles.engravingImageWrapper}>
-              <Image
+              <img
                 src="/assets/photos/laser-engraving-setup-1.webp"
                 alt="Engraving Machine Setup"
-                fill
-                className={styles.engravingImage}
-                priority
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '8px',
+                }}
               />
             </div>
           </div>

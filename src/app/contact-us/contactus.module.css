@@ -106,13 +106,17 @@
 ============================================================================== */
 @media (max-width: 768px) {
   .container {
+    min-height: calc(100vh / 0.88);
     padding: clamp(1rem, 3vw, 4rem) 0.8rem clamp(1.5rem, 5vw, 2rem);
     /* no scale transform, let scrolling handle zooms */
   }
 
   .formWrapper {
-    padding: clamp(1rem, 5vw, 1.5rem);
-  }
+    max-width: 100vw;
+    padding: 1rem 1.25rem; 
+    transform: scale(0.81);
+    transform-origin: center center;
+    }
 
   .logo {
     width: clamp(40px, 15vw, 40px);

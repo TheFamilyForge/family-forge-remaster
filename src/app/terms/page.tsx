@@ -4,9 +4,6 @@
 import { useState, useEffect } from 'react'
 import styles from './terms.module.css'
 
-/* ------------------------------
-   1. SECTION DATA
------------------------------- */
 interface Section {
   id: number
   title: string
@@ -131,13 +128,22 @@ const sections: Section[] = [
   }
 ];
 
-/* ------------------------------
-   2. PAGE COMPONENT
------------------------------- */
 export default function TermsPage() {
   const [openSection, setOpenSection] = useState<number | null>(null)
 
-  // auto‑scroll to opened section
+  // ─── 1) STATIC MOBILE 100 VH FIX ───────────────────────
+  useEffect(() => {
+    const setVh = () =>
+      document.documentElement.style.setProperty(
+        '--vh',
+        `${window.innerHeight * 0.01}px`
+      )
+    setVh()
+    window.addEventListener('orientationchange', setVh)
+    return () => window.removeEventListener('orientationchange', setVh)
+  }, [])
+
+  // ─── 2) AUTO‑SCROLL TO OPENED SECTION ──────────────────
   useEffect(() => {
     if (openSection !== null) {
       document

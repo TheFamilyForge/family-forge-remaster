@@ -14,19 +14,13 @@
   overflow: hidden;
   font-family: 'Bebas Neue', sans-serif;
   width: 100%;
-  height: 600px;                    /* desktop height */
-  background: 
+  /* ← use the --vh hack instead of fixed px */
+  height: calc(var(--vh) * 100);
+  background:
     url('/assets/photos/laser-engraving-setup-1.webp')
     center center / cover no-repeat;
   text-align: center;
   color: white;
-}
-
-.bannerTitle {
-  color: #fff;
-  margin: 0;
-  font-size: 6rem;
-  letter-spacing: 0.4rem;
 }
 
 .bannerOverlay {
@@ -39,16 +33,18 @@
   backdrop-filter: blur(4px);
 }
 
-/* keep your inline H1 styling but override mobile below */
-.bannerOverlay h1 {
+.bannerTitle {
   margin: 0;
+  font-size: 6rem;
+  letter-spacing: 0.4rem;
+  color: white;
 }
 
 /* =======================================================
    2) INTRO SECTION (desktop default)
 ========================================================== */
 .introSection {
-  width: 95%;
+  width: 100%;
   margin: 0 auto;
   background-color: #f2f2f2;
   color: #000;
@@ -102,50 +98,48 @@
    (desktop above remains untouched)
 ========================================================== */
 @media (max-width: 768px) {
-  /* — Banner: shorter & finer control — */
+  /* — Banner: shorter & locked via --vh — */
   .banner {
-    height: clamp(30vh, 40dvh, 50vh);
-    background-size: cover;
-    background-position: 50% 20%;   /* recenter focal point */
+    /* e.g. 50% of the viewport height on mobile */
+    height: calc(var(--vh) * 50) !important;
+    background-position: center center !important;
   }
-  .bannerOverlay h1 {
-    font-size: clamp(1rem, 6vw, 3rem);
-  }
-
   .bannerTitle {
     font-size: clamp(2rem, 6vw, 3rem);
+    letter-spacing: 0.2rem;
   }
 
   /* — Intro: more compact — */
   .introSection {
     width: 90%;
+    margin: 0 auto;
     font-size: clamp(0.9rem, 3vw, 1.1rem);
     line-height: clamp(1.7rem, 4vw, 1.8rem);
     padding: clamp(1rem, 4vw, 2rem);
   }
 
-  /* — Re-heading: tighter — */
+  /* — Re‑heading: tighter & padded — */
   .headingIndent {
-    padding-top: 3rem;
-    padding-left: clamp(1.3rem, 5vw, 2rem);
     font-size: clamp(1.25rem, 5vw, 2rem);
-    padding-bottom: 1.5rem;
+    padding: clamp(3rem, 6vw, 4rem) clamp(1rem, 4vw, 2rem);
   }
 
-  /* — TOC links: adjust indent & size — */
+  /* — TOC links — */
   .tocLink {
     font-size: clamp(1rem, 4vw, 1.1rem);
     padding-left: clamp(1.8rem, 5vw, 2rem);
-    margin-left: 0;
     line-height: clamp(1.6rem, 5vw, 2rem);
   }
 
-  /* — Sections: full-width collapse area — */
+  /* — Section content — */
   .sectionContent {
-    padding-left: clamp(1.8rem, 5vw, 2rem);
-    padding-right: clamp(1.8rem, 5vw, 2rem);
+    padding: 0 1rem;
+    max-width: 60ch;
     font-size: clamp(0.9rem, 3.5vw, 1.05rem);
-    line-height: clamp(1.4rem, 4vw, 1.7rem);
+    line-height: 1.6;
+    margin: 2rem auto;
     margin-bottom: clamp(1.5rem, 5vw, 2rem);
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
