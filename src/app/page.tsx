@@ -70,7 +70,10 @@ export default function Home() {
   return (
     <>
       {/* ─── Hero ───────────────────────────────────────── */}
-      <section className={styles.hero}>
+      <section
+        className={styles.hero}
+        style={{ position: 'relative', zIndex: 2 }}
+      >
         <div className={styles.animationOverlay}>
           <HeroAnimation />
         </div>
@@ -104,7 +107,8 @@ export default function Home() {
               alt={item.alt}
               width={500}
               height={350}
-              style={{ borderRadius: '5px' }}
+              className={styles.cardImage}
+              priority
             />
             <h3>{item.title}</h3>
             <p>{item.desc}</p>
@@ -122,6 +126,7 @@ export default function Home() {
               width={650}
               height={425}
               className={styles.oilImage}
+              priority
             />
             <div className={styles.oilText}>
               <h2>Dedication to quality</h2>
@@ -161,12 +166,13 @@ export default function Home() {
             </p>
           </div>
           <div className={styles.engravingImageBlock}>
-            <div className="relative w-full h-full">
+            <div className={styles.engravingImageWrapper}>
               <Image
                 src="/assets/photos/laser-engraving-setup-1.webp"
                 alt="Engraving Machine Setup"
                 fill
-                style={{ objectFit: 'cover', borderRadius: '8px' }}
+                className={styles.engravingImage}
+                priority
               />
             </div>
           </div>
