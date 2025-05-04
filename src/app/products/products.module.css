@@ -12,12 +12,18 @@
 .heroSection {
   position: relative;
   width: 100%;
-  /* fixed‑height viewport to prevent zooming on scroll */
-  height: calc(var(--vh) * 100);
+  /* full‑height viewport (with fallback for --vh) */
+  height: calc(var(--vh, 1vh) * 100);
   overflow: hidden;
-  background: url('/assets/photos/caleb-and-declan-products-hero.webp')
-    no-repeat center center;
+
+  /* preload‑hinted Products hero as CSS background */
+  background-image: url('/assets/photos/caleb-and-declan-products-hero.webp');
+  background-repeat: no-repeat;
+  background-position: center center;
   background-size: cover;
+
+  /* fallback color so you never see grey */
+  background-color: #f2f2f2;
 }
 
 .heroOverlay {

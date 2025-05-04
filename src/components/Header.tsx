@@ -12,16 +12,23 @@ export default function Header() {
 
   /* ─── UI STATE ──────────────────────────────── */
   const [menuOpen, setMenuOpen]  = useState(false);
-  const [scrolled, setScrolled]  = useState(onContactPage);
-  const [hidden,   setHidden]    = useState(false);   // auto‑hide header
+  const [scrolled, setScrolled]  = useState(false);
+  const [hidden,   setHidden]    = useState(false);
+
+  /* ─── TUNABLE SCROLL THRESHOLDS ───────────────── */
+  // Increase hideThreshold to require a stronger downward scroll to hide.
+  // Increase revealThreshold to require a stronger upward scroll to reveal.
+  let lastToggle  = Date.now();
+  const hideThreshold   = 25; // px of downward scroll before hiding header
+  const revealThreshold = 5;  // px of upward scroll before revealing header
+  const toggleCooldown  = 200; // ms
 
   /* ─── SCROLL + STICKY + AUTO‑HIDE ───────────── */
   useEffect(() => {
     let lastY     = window.scrollY;
     let ticking   = false;
-    const threshold = 25;  // px to trigger hide/reveal
 
-    // reset state on page change
+    // On route change, pin header on Contact page; otherwise set initial scrolled state
     if (onContactPage) {
       setScrolled(true);
       setHidden(false);
@@ -31,30 +38,33 @@ export default function Header() {
     }
 
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const y  = window.scrollY;
-          const dy = y - lastY;
+      if (ticking) return;
+      window.requestAnimationFrame(() => {
+        const y  = window.scrollY;
+        const dy = y - lastY;
 
-          // 1) sticky style after 50px (unless on contact page)
-          if (!onContactPage) setScrolled(y > 50);
+        // 1) sticky after 50px (except on Contact page)
+        if (!onContactPage) {
+          setScrolled(y > 50);
+        }
 
-          // 2) auto‑hide / reveal (ignore on contact page & while menu is open)
-          if (!onContactPage && !menuOpen) {
-            if (dy > threshold && y > 80) setHidden(true);
-            else if (dy < -threshold)    setHidden(false);
-          }
+        // 2) auto-hide/reveal (skip on Contact page or when menu is open)
+        if (!onContactPage && !menuOpen) {
+          // hide if scrolled down past hideThreshold and beyond 80px
+          if (dy > hideThreshold && y > 80) setHidden(true);
+          // reveal if scrolled up more than revealThreshold
+          else if (dy < -revealThreshold)  setHidden(false);
+        }
 
-          lastY   = y;
-          ticking = false;
-        });
-        ticking = true;
-      }
+        lastY   = y;
+        ticking = false;
+      });
+      ticking = true;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [menuOpen, onContactPage]);
+  }, [menuOpen, onContactPage, hideThreshold, revealThreshold]);
 
   /* ─── BODY BLUR / SCROLL LOCK WHEN MENU OPEN ── */
   useEffect(() => {
@@ -75,7 +85,12 @@ export default function Header() {
     <>
       <header
         id="site-header"
-        className={`site-header${scrolled ? ' scrolled' : ''}${hidden ? ' hide' : ''}${onContactPage ? ' no-shadow' : ''}`}
+        className={
+          `site-header` +
+          (scrolled ? ' scrolled' : '') +
+          (hidden   ? ' hide'    : '') +
+          (onContactPage ? ' no-shadow' : '')
+        }
       >
         {/* left logo */}
         <Link href="/" className="siteLogo" onClick={closeMenu}>
@@ -118,10 +133,10 @@ export default function Header() {
           className="nav-menu mobile"
           onClick={(e) => e.stopPropagation()}
         >
-          <li><Link href="/"          onClick={closeMenu}>Home</Link></li>
-          <li><Link href="/products"  onClick={closeMenu}>Products</Link></li>
-          <li><Link href="/about-us"  onClick={closeMenu}>About&nbsp;Us</Link></li>
-          <li><Link href="/contact-us"onClick={closeMenu}>Contact&nbsp;Us</Link></li>
+          <li><Link href="/"           onClick={closeMenu}>Home</Link></li>
+          <li><Link href="/products"   onClick={closeMenu}>Products</Link></li>
+          <li><Link href="/about-us"   onClick={closeMenu}>About&nbsp;Us</Link></li>
+          <li><Link href="/contact-us" onClick={closeMenu}>Contact&nbsp;Us</Link></li>
         </ul>
       </div>
     </>
