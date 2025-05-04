@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import EmblaCarousel from '@components/carousel/EmblaCarousel'
 import type { EmblaOptionsType } from 'embla-carousel'
 import HeroAnimation from '@components/HeroAnimation'
+import Image from 'next/image'
 import styles from './home.module.css'
 
 export default function Home() {
@@ -98,12 +99,12 @@ export default function Home() {
           },
         ].map((item, i) => (
           <div key={i} className={styles.card}>
-            <img
+            <Image
               src={item.src}
               alt={item.alt}
               width={500}
               height={350}
-              style={{ borderRadius: '5px', width: '100%', height: 'auto' }}
+              style={{ borderRadius: '5px' }}
             />
             <h3>{item.title}</h3>
             <p>{item.desc}</p>
@@ -115,7 +116,7 @@ export default function Home() {
       <section className={styles.laserFeature}>
         <div className={styles.laserBackground}>
           <div className={styles.laserContent}>
-            <img
+            <Image
               src="/assets/photos/charcuterie-board-oils.webp"
               alt="Board Oils"
               width={650}
@@ -160,16 +161,12 @@ export default function Home() {
             </p>
           </div>
           <div className={styles.engravingImageBlock}>
-            <div className={styles.engravingImageWrapper}>
-              <img
+            <div className="relative w-full h-full">
+              <Image
                 src="/assets/photos/laser-engraving-setup-1.webp"
                 alt="Engraving Machine Setup"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '8px',
-                }}
+                fill
+                style={{ objectFit: 'cover', borderRadius: '8px' }}
               />
             </div>
           </div>

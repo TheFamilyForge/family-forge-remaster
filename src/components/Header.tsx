@@ -18,10 +18,8 @@ export default function Header() {
   /* ─── TUNABLE SCROLL THRESHOLDS ───────────────── */
   // Increase hideThreshold to require a stronger downward scroll to hide.
   // Increase revealThreshold to require a stronger upward scroll to reveal.
-  let lastToggle  = Date.now();
   const hideThreshold   = 25; // px of downward scroll before hiding header
   const revealThreshold = 5;  // px of upward scroll before revealing header
-  const toggleCooldown  = 200; // ms
 
   /* ─── SCROLL + STICKY + AUTO‑HIDE ───────────── */
   useEffect(() => {
