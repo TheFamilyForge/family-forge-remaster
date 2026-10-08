@@ -21,7 +21,7 @@ export default function Footer() {
         />
       </a>
       <p className={styles.footerText}>
-        © 2025 The Family Forge. All rights reserved.
+        © {new Date().getFullYear()} The Family Forge. All rights reserved.
       </p>
     </footer>
   )
